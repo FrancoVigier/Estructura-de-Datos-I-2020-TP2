@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include "arbol_avl.h"
+#include "tests.h"
 
 void impresion(const unsigned int n, ...) {
   va_list args;
@@ -53,7 +54,11 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
   return false;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+  if(argc == 2) {
+    return main_tests();
+  }
+
   struct ArbolAvl* arbol = itree_crear();
   bool sigue = true;
 
@@ -65,6 +70,4 @@ int main() {
       free(entrada);
     }
   }
-
-	return 0;
 }
