@@ -1,23 +1,61 @@
 #include <stdio.h>
-#include <malloc.h>
 #include <stdbool.h>
-#include <stdarg.h>
+#include <stdlib.h>
 #include "arbol_avl.h"
 #include "tests.h"
+
+const char PARSE_ERROR[] = "Error: Formato invalido";
 
 void impresion(struct Rango rango) {
   printf(" [%lf, %lf]", rango.a, rango.b);
 }
 
 struct Rango escanearRango(char* entrada) {
-  double a, b;
-  sscanf(entrada, "[%lf, %lf]", &a, &b);
+  char aRaw[512] = {}, bRaw[512] = {};
+
+  if(*entrada == '[') {
+    entrada++;
+  } else {
+    printf(PARSE_ERROR);
+    exit(1);
+  }
+
+  for (int i = 0; *entrada != ','; entrada++) {
+    aRaw[i++] = *entrada;
+  }
+
+  if(*entrada == ',') {
+    entrada++;
+  } else {
+    printf(PARSE_ERROR);
+    exit(1);
+  }
+
+  for (int i = 0; *entrada != ']'; entrada++) {
+    bRaw[i++] = *entrada;
+  }
+
+  double a = strtod(aRaw, NULL);
+  double b = strtod(bRaw, NULL);
+
   return (struct Rango) {.a =  a, .b =  b};
 }
 
 bool procesar(char* entrada, struct ArbolAvl* arbol) {
   char c;
-  sscanf(entrada, "%c", &c);
+  if(sscanf(entrada, "%c", &c) == 1) {
+    entrada++;
+  } else {
+    printf(PARSE_ERROR);
+    exit(1);
+  }
+
+  if(*entrada == ' ') {
+    entrada++;
+  } else {
+    printf(PARSE_ERROR);
+    exit(1);
+  }
 
   switch (c) {
     case 'i': {
@@ -44,6 +82,9 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
       break;
     case 's':
       return true;
+    default:
+      printf(PARSE_ERROR);
+      exit(1);
   }
   return false;
 }
