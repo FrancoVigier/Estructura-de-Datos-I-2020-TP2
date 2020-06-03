@@ -4,20 +4,19 @@
 #include "arbol_avl.h"
 #include "tests.h"
 
-const char PARSE_ERROR[] = "Error: Formato invalido";
+const char PARSE_ERROR[] = "Error: Formato invalido\n";
 
 void impresion(struct Rango rango) {
   printf(" [%lf, %lf]", rango.a, rango.b);
 }
 
-struct Rango escanearRango(char* entrada) {
+bool escanearRango(struct Rango* rango, char* entrada) {
   char aRaw[512] = {0}, bRaw[512] = {0};
 
   if(*entrada == '[') {
     entrada++;
   } else {
-    printf(PARSE_ERROR);
-    exit(1);
+    return true;
   }
 
   for (int i = 0; *entrada != ','; entrada++) {
@@ -27,18 +26,17 @@ struct Rango escanearRango(char* entrada) {
   if(*entrada == ',') {
     entrada++;
   } else {
-    printf(PARSE_ERROR);
-    exit(1);
+    return true;
   }
 
   for (int i = 0; *entrada != ']'; entrada++) {
     bRaw[i++] = *entrada;
   }
 
-  double a = strtod(aRaw, NULL);
-  double b = strtod(bRaw, NULL);
+  rango->a = strtod(aRaw, NULL);
+  rango->b = strtod(bRaw, NULL);
 
-  return (struct Rango) {.a =  a, .b =  b};
+  return false;
 }
 
 bool procesar(char* entrada, struct ArbolAvl* arbol) {
@@ -56,10 +54,15 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
         entrada++;
       } else {
         printf(PARSE_ERROR);
-        exit(1);
+        return false;
       }
 
-      struct Rango rango = escanearRango(entrada);
+      struct Rango rango = {0};
+      if(escanearRango(&rango, entrada)) {
+        printf(PARSE_ERROR);
+        return false;
+      }
+
       itree_insertar(arbol, rango);
     }
       break;
@@ -68,10 +71,15 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
         entrada++;
       } else {
         printf(PARSE_ERROR);
-        exit(1);
+        return false;
       }
 
-      struct Rango rango = escanearRango(entrada);
+      struct Rango rango = {0};
+      if(escanearRango(&rango, entrada)) {
+        printf(PARSE_ERROR);
+        return false;
+      }
+
       itree_eliminar(arbol, rango);
     }
       break;
@@ -80,10 +88,15 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
         entrada++;
       } else {
         printf(PARSE_ERROR);
-        exit(1);
+        return false;
       }
 
-      struct Rango rango = escanearRango(entrada);
+      struct Rango rango = {0};
+      if(escanearRango(&rango, entrada)) {
+        printf(PARSE_ERROR);
+        return false;
+      }
+
       bool intersecta = itree_intersectar(arbol, rango);
       printf(intersecta? "Si":"No");
     }
@@ -91,17 +104,17 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
     case 'b':
       if (*entrada != 'f' || *(entrada + 1) != 's') {
         printf(PARSE_ERROR);
-        exit(1);
+        return false;
       }
 
       itree_recorrer_bfs(arbol, impresion);
-      
+
       printf("\n");
       break;
     case 'd':
       if (*entrada != 'f' || *(entrada + 1) != 's') {
         printf(PARSE_ERROR);
-        exit(1);
+        return false;
       }
 
       itree_recorrer_dfs(arbol, impresion);
@@ -112,7 +125,7 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
       return true;
     default:
       printf(PARSE_ERROR);
-      exit(1);
+      return false;
   }
   return false;
 }
@@ -128,6 +141,7 @@ int main(int argc, char *argv[]) {
   bool sigue = true;
 
   while (sigue) {
+    printf("> ");
     char *entrada = malloc(1024 * sizeof(char));
     entrada = fgets(entrada, 1024, stdin);
     if (entrada != NULL) {
