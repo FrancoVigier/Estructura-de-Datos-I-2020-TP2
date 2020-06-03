@@ -17,6 +17,8 @@ void test_deque_pila() {
   assert(deque_pop_front(deque).a == 4);
   assert(deque_pop_front(deque).a == 1);
 
+  assert(deque_vacio(deque));
+
   deque_destruir(deque);
 }
 
@@ -34,6 +36,8 @@ void test_deque_cola() {
   deque_push_front(deque, (struct Rango) {.a = 1, .b = 1});
   assert(deque_pop_back(deque).a == 4);
   assert(deque_pop_back(deque).a == 1);
+
+  assert(deque_vacio(deque));
 
   deque_destruir(deque);
 }

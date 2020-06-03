@@ -20,6 +20,8 @@ struct RangoDeque* deque_crear();
 
 void deque_destruir(struct RangoDeque* deque);
 
+bool deque_vacio(struct RangoDeque *deque);
+
 void deque_push_front(struct RangoDeque* deque, struct Rango rango);
 
 struct Rango deque_pop_front(struct RangoDeque* deque);

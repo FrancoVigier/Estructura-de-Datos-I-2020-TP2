@@ -14,6 +14,10 @@ void deque_destruir(struct RangoDeque *deque) {
   free(deque);
 }
 
+bool deque_vacio(struct RangoDeque *deque) {
+  return deque->ultimoNodo == NULL;
+}
+
 struct Rango deque_pop_back(struct RangoDeque *deque) {
   struct RangoDequeNode* tmp = deque->ultimoNodo;
 
