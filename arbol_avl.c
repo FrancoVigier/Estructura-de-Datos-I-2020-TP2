@@ -31,7 +31,6 @@ void itree_recorrer_fs(
   Impresion impresion,
   Popper pop
 ) {
-
   struct ArbolAvlDeque* deque = deque_crear();
 
   deque_push_front(deque, arbol);
@@ -41,8 +40,12 @@ void itree_recorrer_fs(
 
     impresion(nodo->rango);
 
-    deque_push_front(deque, nodo->derecha);
-    deque_push_front(deque, nodo->izquierda);
+    if(nodo->derecha) {
+      deque_push_front(deque, nodo->derecha);
+    }
+    if(nodo->izquierda) {
+      deque_push_front(deque, nodo->izquierda);
+    }
   }
 }
 
