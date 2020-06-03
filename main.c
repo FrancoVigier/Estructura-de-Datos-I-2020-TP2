@@ -50,35 +50,63 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
     exit(1);
   }
 
-  if(*entrada == ' ') {
-    entrada++;
-  } else {
-    printf(PARSE_ERROR);
-    exit(1);
-  }
-
   switch (c) {
     case 'i': {
+      if(*entrada == ' ') {
+        entrada++;
+      } else {
+        printf(PARSE_ERROR);
+        exit(1);
+      }
+
       struct Rango rango = escanearRango(entrada);
       itree_insertar(arbol, rango);
     }
       break;
     case 'e':{
+      if(*entrada == ' ') {
+        entrada++;
+      } else {
+        printf(PARSE_ERROR);
+        exit(1);
+      }
+
       struct Rango rango = escanearRango(entrada);
       itree_eliminar(arbol, rango);
     }
       break;
     case '?':{
+      if(*entrada == ' ') {
+        entrada++;
+      } else {
+        printf(PARSE_ERROR);
+        exit(1);
+      }
+
       struct Rango rango = escanearRango(entrada);
       bool intersecta = itree_intersectar(arbol, rango);
       printf(intersecta? "Si":"No");
     }
       break;
     case 'b':
+      if (*entrada != 'f' || *(entrada + 1) != 's') {
+        printf(PARSE_ERROR);
+        exit(1);
+      }
+
       itree_recorrer_bfs(arbol, impresion);
+      
+      printf("\n");
       break;
     case 'd':
+      if (*entrada != 'f' || *(entrada + 1) != 's') {
+        printf(PARSE_ERROR);
+        exit(1);
+      }
+
       itree_recorrer_dfs(arbol, impresion);
+
+      printf("\n");
       break;
     case 's':
       return true;
