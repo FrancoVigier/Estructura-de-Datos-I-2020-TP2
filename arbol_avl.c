@@ -40,11 +40,11 @@ void itree_recorrer_fs(
 
     impresion(nodo->rango);
 
-    if(nodo->derecha) {
-      deque_push_front(deque, nodo->derecha);
-    }
     if(nodo->izquierda) {
       deque_push_front(deque, nodo->izquierda);
+    }
+    if(nodo->derecha) {
+      deque_push_front(deque, nodo->derecha);
     }
   }
 }
