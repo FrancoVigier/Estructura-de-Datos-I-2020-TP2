@@ -11,7 +11,7 @@ void impresion(struct Rango rango) {
 }
 
 struct Rango escanearRango(char* entrada) {
-  char aRaw[512] = {}, bRaw[512] = {};
+  char aRaw[512] = {0}, bRaw[512] = {0};
 
   if(*entrada == '[') {
     entrada++;
