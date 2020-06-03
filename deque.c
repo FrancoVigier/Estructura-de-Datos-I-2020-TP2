@@ -1,12 +1,12 @@
 #include "deque.h"
 
-struct RangoDeque *deque_crear() {
-  return calloc(1, sizeof(struct RangoDeque));
+struct ArbolAvlDeque *deque_crear() {
+  return calloc(1, sizeof(struct ArbolAvlDeque));
 }
 
-void deque_destruir(struct RangoDeque *deque) {
+void deque_destruir(struct ArbolAvlDeque *deque) {
   while (deque->primerNodo != NULL) {
-    struct RangoDequeNode* siguente = deque->primerNodo->siguente;
+    struct ArbolAvlDequeNode* siguente = deque->primerNodo->siguente;
     free(deque->primerNodo);
     deque->primerNodo = siguente;
   }
@@ -14,14 +14,14 @@ void deque_destruir(struct RangoDeque *deque) {
   free(deque);
 }
 
-bool deque_vacio(struct RangoDeque *deque) {
+bool deque_vacio(struct ArbolAvlDeque *deque) {
   return deque->ultimoNodo == NULL;
 }
 
-struct Rango deque_pop_back(struct RangoDeque *deque) {
-  struct RangoDequeNode* tmp = deque->ultimoNodo;
+struct ArbolAvl* deque_pop_back(struct ArbolAvlDeque *deque) {
+  struct ArbolAvlDequeNode* tmp = deque->ultimoNodo;
 
-  struct Rango elemento = deque->ultimoNodo->rango;
+  struct ArbolAvl* elemento = deque->ultimoNodo->arbolAvl;
   deque->ultimoNodo = deque->ultimoNodo->anterior;
 
   if(deque->ultimoNodo != NULL) {
@@ -34,10 +34,10 @@ struct Rango deque_pop_back(struct RangoDeque *deque) {
   return elemento;
 }
 
-struct Rango deque_pop_front(struct RangoDeque *deque) {
-  struct RangoDequeNode* tmp = deque->primerNodo;
+struct ArbolAvl* deque_pop_front(struct ArbolAvlDeque *deque) {
+  struct ArbolAvlDequeNode* tmp = deque->primerNodo;
 
-  struct Rango elemento = deque->primerNodo->rango;
+  struct ArbolAvl* elemento = deque->primerNodo->arbolAvl;
   deque->primerNodo = deque->primerNodo->siguente;
 
   if(deque->primerNodo != NULL) {
@@ -50,9 +50,9 @@ struct Rango deque_pop_front(struct RangoDeque *deque) {
   return elemento;
 }
 
-void deque_push_front(struct RangoDeque *deque, struct Rango rango) {
-  struct RangoDequeNode* node = malloc(sizeof(struct RangoDequeNode));
-  node->rango = rango;
+void deque_push_front(struct ArbolAvlDeque *deque, struct ArbolAvl* arbolAvl) {
+  struct ArbolAvlDequeNode* node = malloc(sizeof(struct ArbolAvlDequeNode));
+  node->arbolAvl = arbolAvl;
   node->siguente = deque->primerNodo;
   node->anterior = NULL;
 
