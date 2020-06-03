@@ -3,19 +3,19 @@
 
 #include <stdbool.h>
 
-typedef void Impresion(const unsigned int, ...);
-
 struct Rango {
   double a, b;
 };
 
 struct ArbolAvl {
-  struct Rango range;
+  struct Rango rango;
   double maxB;
 
   struct ArbolAvl* derecha;
   struct ArbolAvl* izquierda;
 };
+
+typedef void Impresion(struct Rango);
 
 struct ArbolAvl* itree_crear();
 

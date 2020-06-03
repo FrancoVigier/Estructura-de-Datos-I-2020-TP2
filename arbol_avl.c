@@ -24,26 +24,32 @@ bool itree_intersectar(struct ArbolAvl *tree, struct Rango rango) {
  return true;
 }
 
-typedef struct Rango (Popper(struct ArbolAvlDeque*)) ;
-
-void itree_recorrer_dfs(struct ArbolAvl *arbol, Impresion impresion) {
-
-}
-
-void itree_recorrer_bfs(struct ArbolAvl *arbol, Impresion impresion) {
-
-}
+typedef struct ArbolAvl* (Popper(struct ArbolAvlDeque*)) ;
 
 void itree_recorrer_fs(
   struct ArbolAvl *arbol,
   Impresion impresion,
   Popper pop
-  ) {
+) {
 
-  struct Deque* deque = deque_crear();
+  struct ArbolAvlDeque* deque = deque_crear();
 
   deque_push_front(deque, arbol);
 
+  while (!deque_vacio(deque)) {
+    struct ArbolAvl* nodo = pop(deque);
 
+    impresion(nodo->rango);
 
+    deque_push_front(deque, nodo->derecha);
+    deque_push_front(deque, nodo->izquierda);
+  }
+}
+
+void itree_recorrer_dfs(struct ArbolAvl *arbol, Impresion impresion) {
+  itree_recorrer_fs(arbol, impresion, deque_pop_front);
+}
+
+void itree_recorrer_bfs(struct ArbolAvl *arbol, Impresion impresion) {
+  itree_recorrer_fs(arbol, impresion, deque_pop_back);
 }

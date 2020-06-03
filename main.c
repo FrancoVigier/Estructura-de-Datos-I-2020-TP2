@@ -5,14 +5,8 @@
 #include "arbol_avl.h"
 #include "tests.h"
 
-void impresion(const unsigned int n, ...) {
-  va_list args;
-  va_start(args, n);
-  for (int i = 0; i < n; i++) {
-    struct Rango rango = va_arg(args, struct Rango);
-    printf("[%lf, %lf]", rango.a, rango.b);
-  }
-  va_end(args);
+void impresion(struct Rango rango) {
+  printf(" [%lf, %lf]", rango.a, rango.b);
 }
 
 struct Rango escanearRango(char* entrada) {
