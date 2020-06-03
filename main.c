@@ -56,7 +56,9 @@ bool procesar(char* entrada, struct ArbolAvl* arbol) {
 
 int main(int argc, char *argv[]) {
   if(argc == 2) {
-    return main_tests();
+    main_tests();
+
+    return 0;
   }
 
   struct ArbolAvl* arbol = itree_crear();

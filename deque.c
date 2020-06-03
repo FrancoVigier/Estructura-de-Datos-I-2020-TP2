@@ -20,6 +20,12 @@ struct Rango deque_pop_back(struct RangoDeque *deque) {
   struct Rango elemento = deque->ultimoNodo->rango;
   deque->ultimoNodo = deque->ultimoNodo->anterior;
 
+  if(deque->ultimoNodo != NULL) {
+    deque->ultimoNodo->siguente = NULL;
+  } else {
+    deque->primerNodo = NULL;
+  }
+
   free(tmp);
   return elemento;
 }
@@ -30,6 +36,12 @@ struct Rango deque_pop_front(struct RangoDeque *deque) {
   struct Rango elemento = deque->primerNodo->rango;
   deque->primerNodo = deque->primerNodo->siguente;
 
+  if(deque->primerNodo != NULL) {
+    deque->primerNodo->anterior = NULL;
+  } else {
+    deque->ultimoNodo = NULL;
+  }
+
   free(tmp);
   return elemento;
 }
@@ -38,8 +50,14 @@ void deque_push_front(struct RangoDeque *deque, struct Rango rango) {
   struct RangoDequeNode* node = malloc(sizeof(struct RangoDequeNode));
   node->rango = rango;
   node->siguente = deque->primerNodo;
+  node->anterior = NULL;
 
-  deque->primerNodo->anterior = node;
+  if(deque->primerNodo == NULL) {
+    deque->primerNodo = node;
+    deque->ultimoNodo = node;
+  } else {
+    deque->primerNodo->anterior = node;
 
-  deque->primerNodo = node;
+    deque->primerNodo = node;
+  }
 }
